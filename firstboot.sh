@@ -1,6 +1,6 @@
 #!/bin/bash
 # RFSD-Config-Script-OSX-10.10DP8_v7
-#  From Daniel Rheiner Edited TF
+# From Daniel Rheiner Edited BB 7/26/17
 # Date of Compile: 2/13/2014
 # Version 1
 # OS X 10.10 Beta
@@ -8,7 +8,7 @@
 # *** Items are Disabled in this script for BETA Testing - undone - TF ***
 # Remove Applications, SMB 2&3 Disable
 
-# $3 = Username when executed as a login or logout policy
+# $3 = Username when executed as a login or logout policy
 
 # Define variables
 awk="/usr/bin/awk"
@@ -260,6 +260,29 @@ ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applicatio
 defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText “This computer is owned and managed by the Roaring Fork School District, and is intended for use by it’s employees, affiliates, and students only.“
 
+# Turn SSH on
+
+systemsetup -setremotelogin on
+
+# Turn off Gatekeeper
+
+spctl --master-disable
+
+# Disable Gatekeeper's auto-rearm. Otherwise Gatekeeper
+# will reactivate every 30 days. When it reactivates, it
+# will be be set to "Mac App Store and identified developers"
+
+/usr/bin/defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool false
+
+# Set the RSA maximum key size to 32768 bits (32 kilobits) in
+# /Library/Preferences/com.apple.security.plist to provide
+# future-proofing against larger TLS certificate key sizes.
+#
+# For more information about this issue, please see the link below:
+# http://blog.shiz.me/post/67305143330/8192-bit-rsa-keys-in-os-x
+
+/usr/bin/defaults write /Library/Preferences/com.apple.security RSAMaxKeySize -int 32768
+
 # Terminal command-line access warning
 #/usr/bin/touch /etc/motd
 #/bin/chmod 644 /etc/motd
@@ -335,6 +358,47 @@ defaults write "/System/Library/User Template/English.lproj/Library/Preferences/
 defaults write "/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleHIDMouse" Button1 -integer 1
 defaults write "/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleHIDMouse" Button2 -integer 2
 
+# From Rich Trouton, created July 29, 2015:
+# Set the ability to  view additional system info at the Login window
+# The following will be reported when you click on the time display 
+# (click on the time again to proceed to the next item):
+#
+# Computer name
+# Version of OS X installed
+# IP address
+# This will remain visible for 60 seconds.
+
+/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+# Set whether you want to send diagnostic info back to
+# Apple and/or third party app developers. If you want
+# to send diagonostic data to Apple, set the following 
+# value for the SUBMIT_DIAGNOSTIC_DATA_TO_APPLE value:
+#
+# SUBMIT_DIAGNOSTIC_DATA_TO_APPLE=TRUE
+# 
+# If you want to send data to third party app developers,
+# set the following value for the
+# SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS value:
+#
+# SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=TRUE
+# 
+# By default, the values in this script are set to 
+# send no diagnostic data: 
+
+SUBMIT_DIAGNOSTIC_DATA_TO_APPLE=FALSE
+SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
+
+# Set the RSA maximum key size to 32768 bits (32 kilobits) in
+# /Library/Preferences/com.apple.security.plist to provide
+# future-proofing against larger TLS certificate key sizes.
+#
+# For more information about this issue, please see the link below:
+# http://blog.shiz.me/post/67305143330/8192-bit-rsa-keys-in-os-x
+
+/usr/bin/defaults write /Library/Preferences/com.apple.security RSAMaxKeySize -int 32768
+
+
 
 #####################################################
 # # 
@@ -344,7 +408,7 @@ defaults write "/System/Library/User Template/English.lproj/Library/Preferences/
 
 
 # Remove setup LaunchDaemon item
-srm /Library/LaunchDaemons/com.rfschools.firstBoot.plist
+/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
 
 # Hide /Opt/ Folder under root drive
 chflags hidden /opt/
@@ -364,7 +428,8 @@ chflags hidden /usr/
 #rm -rf /Users/temp
 
 # Repair Disk Permissions with Disk Utility command line 
-diskutil repairPermissions /
+# No longer works in Sierra
+# diskutil repairPermissions /
 
 # Run Built-in Unix Maintenance Scripts (Rotate & delete log files)
 sudo periodic daily weekly monthly
