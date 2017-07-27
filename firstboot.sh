@@ -47,18 +47,17 @@ scutil="/usr/sbin/scutil"
 # #
 #####################################################
 
-
-killall cfprefsd
-sudo killall cupsd
-sudo launchctl unload /System/Library/LaunchDaemons/org.cups.cupsd.plist
-sudo launchctl load /System/Library/LaunchDaemons/org.cups.cupsd.plist
-sudo update_dyld_shared_cache -root /
+#killall cfprefsd
+#sudo killall cupsd
+#sudo launchctl unload /System/Library/LaunchDaemons/org.cups.cupsd.plist
+#sudo launchctl load /System/Library/LaunchDaemons/org.cups.cupsd.plist
+#sudo update_dyld_shared_cache -root /
 
 # Refresh Network Adapters
 /usr/sbin/networksetup -detectnewhardware
 
 #Default search domains
-SearchDomains=rfsd.k12.co.us
+SearchDomains=rfsd.k12.co.us rfsd.local
 
 #Time Zone
 TimeZone=America/Denver
@@ -91,10 +90,10 @@ echo "server $TimeServer3" >> /etc/ntp.conf
 # echo "[default]" >> ~/Library/Preferences/nsmb.conf; echo "smb_neg=smb1_only" >> ~/Library/Preferences/nsmb.conf
 
 # Turn off DS_Store file creation on network volumes
-defaults write /System/Library/User\ Template/English.lproj/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores true
+#defaults write /System/Library/User\ Template/English.lproj/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores true
 
 # Disable external accounts (i.e. accounts stored on drives other than the boot drive.)
-defaults write /Library/Preferences/com.apple.loginwindow EnableExternalAccounts -bool false
+#defaults write /Library/Preferences/com.apple.loginwindow EnableExternalAccounts -bool false
 
 # Clear text passwords in AFP
 #/usr/bin/defaults write com.apple.AppleShareClient "afp_cleartext_allow" 1
@@ -106,7 +105,7 @@ defaults write /Library/Preferences/com.apple.mdmclient BypassPreLoginCheck -boo
 /usr/bin/defaults write com.apple.loginwindow 'TALLogoutSavesState' -bool false
 
 # Remove the loginwindow delay by loading the com.apple.loginwindow
-launchctl load /System/Library/LaunchDaemons/com.apple.loginwindow.plist
+#launchctl load /System/Library/LaunchDaemons/com.apple.loginwindow.plist
 
 # Set Shutdown and Logoff timers to 1 second (No Delay)
 sudo defaults write /System/Library/LaunchDaemons/com.apple.coreservices.appleevents ExitTimeOut -int 1
@@ -119,10 +118,10 @@ defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool 
 
 # Enable ARD, Remote Management, and Remote Login (SSH) - 1. Removes Administrators Group from Remote login, 2 & 3. Creates xxxxxxxxx Membership, 4 & 5. Adds xxxxxxxxx User to Remotelogin then activates.
 sudo dseditgroup -o edit -d admin -t group com.apple.access_ssh
-sudo dscl . append /Groups/com.apple.access_ssh user macadmin
+#sudo dscl . append /Groups/com.apple.access_ssh user macadmin
 sudo dscl . append /Groups/com.apple.access_ssh user techies
 sudo dscl . append /Groups/com.apple.access_ssh GroupMembership admin
-sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/macadmin GeneratedUID | cut -d " " -f 2`
+#sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/macadmin GeneratedUID | cut -d " " -f 2`
 sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/techies GeneratedUID | cut -d " " -f 2`
 sudo systemsetup -setremotelogin on
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -specifiedUsers
@@ -143,15 +142,15 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 # set bonjour, host and sharing names based on patch level and en0 (ethernet) mac address
 LAST6_ENETADDY=`ifconfig en0 | grep ether | awk '{print $2}' | sed 's/://g' | cut -c 7-12 | tr [:lower:] [:upper:]`
 PATCHLVL=`/usr/bin/defaults read "/System/Library/CoreServices/SystemVersion" ProductVersion | sed 's/[.]/-/g'`
-$scutil --set LocalHostName "$LAST6_ENETADDY-$PATCHLVL"
-$scutil --set ComputerName "$LAST6_ENETADDY-$PATCHLVL"
-$scutil --set HostName "$LAST6_ENETADDY-$PATCHLVL"
+$scutil --set LocalHostName "RFSD$LAST6_ENETADDY-rename"
+$scutil --set ComputerName "RFSD$LAST6_ENETADDY-rename"
+$scutil --set HostName "RFSD$LAST6_ENETADDY-rename"
 RENAMED=`$scutil --get HostName`
 
 #Allow users to set initial DVD Region
-security authorizationdb read system.device.dvd.setregion.initial > /tmp/system.device.dvd.setregion.initial.plist
-/usr/libexec/PlistBuddy -c "Set class allow" /tmp/system.device.dvd.setregion.initial.plist
-security authorizationdb write system.device.dvd.setregion.initial < /tmp/system.device.dvd.setregion.initial.plist
+#security authorizationdb read system.device.dvd.setregion.initial > /tmp/system.device.dvd.setregion.initial.plist
+#/usr/libexec/PlistBuddy -c "Set class allow" /tmp/system.device.dvd.setregion.initial.plist
+#security authorizationdb write system.device.dvd.setregion.initial < /tmp/system.device.dvd.setregion.initial.plist
 
 # Disable Hibernation Services
 sudo pmset -a hibernatemode 0
@@ -160,7 +159,7 @@ sudo pmset -a hibernatemode 0
 sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AllowPreReleaseInstallation -bool false
 
 # Set the login window to name and password
-defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool true
+#defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool true
 
 # Enable Fast User Switching option
 defaults write /Library/Preferences/.GlobalPreferences MultipleSessionEnabled -bool 'YES'
@@ -196,9 +195,6 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Expand print panel by default
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
-
-# Turn off Gatekeeper Message
-spctl --master-disable
 
 # Turn off Automatic updates
 sudo softwareupdate --schedule off
@@ -242,45 +238,40 @@ defaults write com.apple.BezelServices kDim -bool true
 defaults write com.apple.BezelServices kDimTime -int 300
 
 # Sets System Volume level to 50% 
-osascript -e 'set volume output volume 50'
+#osascript -e 'set volume output volume 50'
 
 # Hide the following applications: Game Center, Boot Camp
-sudo chflags hidden /Applications/Game\ Center.app/
+#sudo chflags hidden /Applications/Game\ Center.app/
 # sudo chflags hidden /Applications/Time\ Machine.app/
-sudo chflags hidden /Applications/Utilities/Boot\ Camp\ Assistant.app/
+#sudo chflags hidden /Applications/Utilities/Boot\ Camp\ Assistant.app/
 
 # Make a shortcut links to Network Utility, Directory Utility, Screen Sharing, Raid Utility, and Archive Utility under "Utilities" Folder
-ln -s /System/Library/CoreServices/Applications/Network\ Utility.app /Applications/Utilities/Network\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Directory\ Utility.app /Applications/Utilities/Directory\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Screen\ Sharing.app /Applications/Utilities/Screen\ Sharing.app
-ln -s /System/Library/CoreServices/Applications/RAID\ Utility.app /Applications/Utilities/RAID\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applications/Utilities/Archive\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Network\ Utility.app /Applications/Utilities/Network\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Directory\ Utility.app /Applications/Utilities/Directory\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Screen\ Sharing.app /Applications/Utilities/Screen\ Sharing.app
+#ln -s /System/Library/CoreServices/Applications/RAID\ Utility.app /Applications/Utilities/RAID\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applications/Utilities/Archive\ Utility.app
 
 # Set the ability to view additional system info at the Login window.
 defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText “This computer is owned and managed by the Roaring Fork School District, and is intended for use by it’s employees, affiliates, and students only.“
 
 # Turn SSH on
-
 systemsetup -setremotelogin on
 
 # Turn off Gatekeeper
-
 spctl --master-disable
 
 # Disable Gatekeeper's auto-rearm. Otherwise Gatekeeper
 # will reactivate every 30 days. When it reactivates, it
 # will be be set to "Mac App Store and identified developers"
-
 /usr/bin/defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool false
 
 # Set the RSA maximum key size to 32768 bits (32 kilobits) in
 # /Library/Preferences/com.apple.security.plist to provide
 # future-proofing against larger TLS certificate key sizes.
-#
 # For more information about this issue, please see the link below:
 # http://blog.shiz.me/post/67305143330/8192-bit-rsa-keys-in-os-x
-
 /usr/bin/defaults write /Library/Preferences/com.apple.security RSAMaxKeySize -int 32768
 
 # Terminal command-line access warning
@@ -314,8 +305,8 @@ OpenWith -bool true \
 Privileges -bool true
 
 # Disable “Application Downloaded from the internet” message
-sudo defaults write /System/Library/User\ Template/English.lproj/Library/Preferences/com.apple.LaunchServices LSQuarantine -bool NO
-defaults write com.apple.LaunchServices LSQuarantine -bool NO
+#sudo defaults write /System/Library/User\ Template/English.lproj/Library/Preferences/com.apple.LaunchServices LSQuarantine -bool NO
+#defaults write com.apple.LaunchServices LSQuarantine -bool NO
 
 # Disable “Application Downloaded from the internet” for the particular applications below
 # sudo xattr -d -r com.apple.quarantine /Applications/Utilities/ADPassMon.app
@@ -368,7 +359,7 @@ defaults write "/System/Library/User Template/English.lproj/Library/Preferences/
 # IP address
 # This will remain visible for 60 seconds.
 
-/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+#/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # Set whether you want to send diagnostic info back to
 # Apple and/or third party app developers. If you want
@@ -386,8 +377,8 @@ defaults write "/System/Library/User Template/English.lproj/Library/Preferences/
 # By default, the values in this script are set to 
 # send no diagnostic data: 
 
-SUBMIT_DIAGNOSTIC_DATA_TO_APPLE=FALSE
-SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
+#SUBMIT_DIAGNOSTIC_DATA_TO_APPLE=FALSE
+#SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
 
 # Set the RSA maximum key size to 32768 bits (32 kilobits) in
 # /Library/Preferences/com.apple.security.plist to provide
@@ -408,7 +399,7 @@ SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
 
 
 # Remove setup LaunchDaemon item
-/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
+#/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
 
 # Hide /Opt/ Folder under root drive
 chflags hidden /opt/
@@ -436,3 +427,5 @@ sudo periodic daily weekly monthly
 
 # Purge System Log
 /bin/rm -rf /var/log/system.log
+
+exit 0
