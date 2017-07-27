@@ -112,10 +112,10 @@ launchctl load /System/Library/LaunchDaemons/com.apple.loginwindow.plist
 
 #UNABLE TO WRITE IN SIERRA
 # Set Shutdown and Logoff timers to 1 second (No Delay)
-sudo defaults write /System/Library/LaunchDaemons/com.apple.coreservices.appleevents ExitTimeOut -int 1
-sudo defaults write /System/Library/LaunchDaemons/com.apple.securityd ExitTimeOut -int 1
-sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder ExitTimeOut -int 1
-sudo defaults write /System/Library/LaunchDaemons/com.apple.diskarbitrationd ExitTimeOut -int 1
+#sudo defaults write /System/Library/LaunchDaemons/com.apple.coreservices.appleevents ExitTimeOut -int 1
+#sudo defaults write /System/Library/LaunchDaemons/com.apple.securityd ExitTimeOut -int 1
+#sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder ExitTimeOut -int 1
+#sudo defaults write /System/Library/LaunchDaemons/com.apple.diskarbitrationd ExitTimeOut -int 1
 
 # Disable default file sharing for guest
 defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool false
@@ -175,11 +175,13 @@ defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant D
 defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant GestureMovieSeen none
 defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant LastSeenCloudProductVersion 10.10
 done
-sudo mv /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher.backup
+#OPERATION NOT PERMITTED IN SIERRA
+#sudo mv /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher.backup
 defaults write "/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder.plist" ProhibitGoToiDisk -bool YES
 
 # Remove Setup LaunchDaemon item
-rm /Library/LaunchDaemons/com.company.initialsetup.plist
+#NO SUCH FILE OR DIRECTORY IN SIERRA
+#rm /Library/LaunchDaemons/com.company.initialsetup.plist
 
 # Disable Time Machine's & pop-up message whenever an external drive is plugged in
 for USER_TEMPLATE in "/System/Library/User Template"/*
@@ -223,7 +225,8 @@ security authorizationdb write system.preferences.printing allow
 /usr/bin/security authorizationdb write system.print.operator allow
 /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group lpadmin
 /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group _lpadmin
-/usr/sbin/dseditgroup -o edit -n /Local/Default -a 'Domain Users' -t group lpadmin
+#RECORD NOT FOUND IN SIERRA
+#/usr/sbin/dseditgroup -o edit -n /Local/Default -a 'Domain Users' -t group lpadmin
 
 # See next preferred pmset settings… these, from original script are commented out. Power Settings for all Users (Display Sleep, Workstation Sleep, Wake for network access) (Pmset -a = All Power modes | Pmset -c = A/C Power | Pmset -b = Battery Power)
 #pmset -a halfdim 1 gpuswitch 2 hibernatemode 0 lidwake 1 sms 1
@@ -248,16 +251,19 @@ defaults write com.apple.BezelServices kDimTime -int 300
 osascript -e 'set volume output volume 50'
 
 # Hide the following applications: Game Center, Boot Camp
-sudo chflags hidden /Applications/Game\ Center.app/
-# sudo chflags hidden /Applications/Time\ Machine.app/
-sudo chflags hidden /Applications/Utilities/Boot\ Camp\ Assistant.app/
+#NO SUCH FILE IN SIERRA
+#sudo chflags hidden /Applications/Game\ Center.app/
+#sudo chflags hidden /Applications/Time\ Machine.app/
+#OPERATION NOTE PERMITTED IN SIERRA
+#sudo chflags hidden /Applications/Utilities/Boot\ Camp\ Assistant.app/
 
 # Make a shortcut links to Network Utility, Directory Utility, Screen Sharing, Raid Utility, and Archive Utility under "Utilities" Folder
-ln -s /System/Library/CoreServices/Applications/Network\ Utility.app /Applications/Utilities/Network\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Directory\ Utility.app /Applications/Utilities/Directory\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Screen\ Sharing.app /Applications/Utilities/Screen\ Sharing.app
-ln -s /System/Library/CoreServices/Applications/RAID\ Utility.app /Applications/Utilities/RAID\ Utility.app
-ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applications/Utilities/Archive\ Utility.app
+# OPERATION NOT PERMITTED IN SIERRA
+#ln -s /System/Library/CoreServices/Applications/Network\ Utility.app /Applications/Utilities/Network\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Directory\ Utility.app /Applications/Utilities/Directory\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Screen\ Sharing.app /Applications/Utilities/Screen\ Sharing.app
+#ln -s /System/Library/CoreServices/Applications/RAID\ Utility.app /Applications/Utilities/RAID\ Utility.app
+#ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applications/Utilities/Archive\ Utility.app
 
 # Set the ability to view additional system info at the Login window.
 defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
@@ -414,7 +420,8 @@ SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
 #/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
 
 # Hide /Opt/ Folder under root drive
-chflags hidden /opt/
+#NO SUCH FILE IN SIERRA
+#chflags hidden /opt/
 chflags hidden /private/
 chflags hidden /usr/
 
