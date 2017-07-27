@@ -48,12 +48,13 @@ scutil="/usr/sbin/scutil"
 # #
 #####################################################
 
-
-killall cfprefsd
-sudo killall cupsd
-sudo launchctl unload /System/Library/LaunchDaemons/org.cups.cupsd.plist
-sudo launchctl load /System/Library/LaunchDaemons/org.cups.cupsd.plist
-sudo update_dyld_shared_cache -root /
+#NOT SURE OF PURPOSE
+#killall cupsd no process found on Sierra
+#killall cfprefsd
+#sudo killall cupsd
+#sudo launchctl unload /System/Library/LaunchDaemons/org.cups.cupsd.plist
+#sudo launchctl load /System/Library/LaunchDaemons/org.cups.cupsd.plist
+#sudo update_dyld_shared_cache -root /
 
 # Refresh Network Adapters
 /usr/sbin/networksetup -detectnewhardware
@@ -109,6 +110,7 @@ defaults write /Library/Preferences/com.apple.mdmclient BypassPreLoginCheck -boo
 # Remove the loginwindow delay by loading the com.apple.loginwindow
 launchctl load /System/Library/LaunchDaemons/com.apple.loginwindow.plist
 
+#UNABLE TO WRITE IN SIERRA
 # Set Shutdown and Logoff timers to 1 second (No Delay)
 sudo defaults write /System/Library/LaunchDaemons/com.apple.coreservices.appleevents ExitTimeOut -int 1
 sudo defaults write /System/Library/LaunchDaemons/com.apple.securityd ExitTimeOut -int 1
@@ -120,10 +122,10 @@ defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool 
 
 # Enable ARD, Remote Management, and Remote Login (SSH) - 1. Removes Administrators Group from Remote login, 2 & 3. Creates xxxxxxxxx Membership, 4 & 5. Adds xxxxxxxxx User to Remotelogin then activates.
 sudo dseditgroup -o edit -d admin -t group com.apple.access_ssh
-sudo dscl . append /Groups/com.apple.access_ssh user macadmin
+#sudo dscl . append /Groups/com.apple.access_ssh user macadmin
 sudo dscl . append /Groups/com.apple.access_ssh user techies
 sudo dscl . append /Groups/com.apple.access_ssh GroupMembership admin
-sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/macadmin GeneratedUID | cut -d " " -f 2`
+#sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/macadmin GeneratedUID | cut -d " " -f 2`
 sudo dscl . append /Groups/com.apple.access_ssh groupmembers `dscl . read /Users/techies GeneratedUID | cut -d " " -f 2`
 sudo systemsetup -setremotelogin on
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -specifiedUsers
@@ -142,11 +144,11 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 #diskutil rename / "Macintosh HD"
 
 # set bonjour, host and sharing names based on patch level and en0 (ethernet) mac address
-LAST6_ENETADDY=`ifconfig en0 | grep ether | awk '{print $2}' | sed 's/://g' | cut -c 7-12 | tr [:lower:] [:upper:]`
+LAST6_ENETADDY=`ioreg -k IOPlatformSerialNumber | sed -En 's/^.*"IOPlatformSerialNumber".*(.{6})"$/\1/p'` 
 PATCHLVL=`/usr/bin/defaults read "/System/Library/CoreServices/SystemVersion" ProductVersion | sed 's/[.]/-/g'`
-$scutil --set LocalHostName "$LAST6_ENETADDY-$PATCHLVL"
-$scutil --set ComputerName "$LAST6_ENETADDY-$PATCHLVL"
-$scutil --set HostName "$LAST6_ENETADDY-$PATCHLVL"
+$scutil --set LocalHostName "RFSD-$LAST6_ENETADDY-RENAME"
+$scutil --set ComputerName "RFSD-$LAST6_ENETADDY-RENAME"
+$scutil --set HostName "RFSD-$LAST6_ENETADDY-RENAME"
 RENAMED=`$scutil --get HostName`
 
 #Allow users to set initial DVD Region
@@ -173,11 +175,11 @@ defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant D
 defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant GestureMovieSeen none
 defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant LastSeenCloudProductVersion 10.10
 done
-mv /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher.backup
+sudo mv /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher /System/Library/CoreServices/Setup\ Assistant.app/Contents/SharedSupport/MiniLauncher.backup
 defaults write "/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder.plist" ProhibitGoToiDisk -bool YES
 
 # Remove Setup LaunchDaemon item
-srm /Library/LaunchDaemons/com.company.initialsetup.plist
+rm /Library/LaunchDaemons/com.company.initialsetup.plist
 
 # Disable Time Machine's & pop-up message whenever an external drive is plugged in
 for USER_TEMPLATE in "/System/Library/User Template"/*
@@ -259,7 +261,7 @@ ln -s /System/Library/CoreServices/Applications/Archive\ Utility.app /Applicatio
 
 # Set the ability to view additional system info at the Login window.
 defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText “This computer is owned and managed by the Roaring Fork School District, and is intended for use by it’s employees, affiliates, and students only.“
+#defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText “This computer is owned and managed by the Roaring Fork School District, and is intended for use by it’s employees, affiliates, and students only.“
 
 # Turn SSH on
 
@@ -300,13 +302,13 @@ spctl --master-disable
 
 
 # Remove info files on all 
-rm -R /System/Library/User\ Template/Non_localized/Downloads/About\ Downloads.lpdf
-rm -R /System/Library/User\ Template/Non_localized/Documents/About\ Stacks.lpdf
+#rm -R /System/Library/User\ Template/Non_localized/Downloads/About\ Downloads.lpdf
+#rm -R /System/Library/User\ Template/Non_localized/Documents/About\ Stacks.lpdf
 
 # Show the ~/Library folder
 sudo chflags nohidden /System/Library/User\ Template/English.lproj/Library/
 /usr/bin/chflags nohidden $HOME/Library
-sudo chflags nohidden /Users/xxxxxxxxx/Library
+#sudo chflags nohidden /Users/xxxxxxxxx/Library
 
 # Expand “General”, “Open with”, and “Sharing & Permissions” in File Information
 defaults write /System/Library/User\ Template/English.lproj/Library/Preferences/com.apple.finder FXInfoPanesExpanded -dict \
@@ -369,7 +371,7 @@ defaults write "/System/Library/User Template/English.lproj/Library/Preferences/
 # IP address
 # This will remain visible for 60 seconds.
 
-/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+#/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # Set whether you want to send diagnostic info back to
 # Apple and/or third party app developers. If you want
@@ -409,7 +411,7 @@ SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
 
 
 # Remove setup LaunchDaemon item
-/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
+#/bin/rm -rf /Library/LaunchDaemons/com.rfschools.runFirstBoot.plist
 
 # Hide /Opt/ Folder under root drive
 chflags hidden /opt/
@@ -437,3 +439,5 @@ sudo periodic daily weekly monthly
 
 # Purge System Log
 /bin/rm -rf /var/log/system.log
+
+exit 0
