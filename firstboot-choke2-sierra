@@ -1,0 +1,408 @@
+AE2D9C-10-12-5:sbin techies$ sudo sh -x firstboot20170726.sh
+Password:
++ awk=/usr/bin/awk
+++ /bin/ls -l /dev/console
+++ /usr/bin/awk '{print $3}'
++ consoleuser=techies
++ dscl=/usr/bin/dscl
++ dseditgroup=/usr/sbin/dseditgroup
++ echo=/bin/echo
++ find=/usr/bin/find
++ grep=/usr/bin/grep
++ kickstart=/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart
++ killall=/usr/bin/killall
++ launchctl=/bin/launchctl
++ ln=/bin/ln
++ mkdir=/bin/mkdir
++ mv=/bin/mv
++ networksetup=/usr/sbin/networksetup
++ perl=/usr/bin/perl
++ sleep=/bin/sleep
++ systemsetup=/usr/sbin/systemsetup
++ rm=/bin/rm
++ touch=/usr/bin/touch
++ scutil=/usr/sbin/scutil
++ /usr/sbin/networksetup -detectnewhardware
++ SearchDomains=rfsd.k12.co.us
++ TimeZone=America/Denver
++ /usr/sbin/systemsetup -settimezone America/Denver
+Set TimeZone: America/Denver
++ TimeServer1=time.apple.com
++ TimeServer2=0.pool.ntp.org
++ TimeServer3=1.pool.ntp.org
++ /usr/sbin/systemsetup -setnetworktimeserver time.apple.com
+setNetworkTimeServer: time.apple.com
++ echo 'server 0.pool.ntp.org'
++ echo 'server 1.pool.ntp.org'
++ /usr/sbin/systemsetup -setusingnetworktime on
+Network Time is already on.
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.desktopservices' DSDontWriteNetworkStores true
++ defaults write /Library/Preferences/com.apple.loginwindow EnableExternalAccounts -bool false
++ defaults write /Library/Preferences/com.apple.mdmclient BypassPreLoginCheck -bool YES
++ /usr/bin/defaults write com.apple.loginwindow TALLogoutSavesState -bool false
++ launchctl load /System/Library/LaunchDaemons/com.apple.loginwindow.plist
+/System/Library/LaunchDaemons/com.apple.loginwindow.plist: service already loaded
++ sudo defaults write /System/Library/LaunchDaemons/com.apple.coreservices.appleevents ExitTimeOut -int 1
+2017-07-26 19:35:06.993 defaults[1368:17214] Could not write domain /System/Library/LaunchDaemons/com.apple.coreservices.appleevents; exiting
++ sudo defaults write /System/Library/LaunchDaemons/com.apple.securityd ExitTimeOut -int 1
+2017-07-26 19:35:07.026 defaults[1370:17221] Could not write domain /System/Library/LaunchDaemons/com.apple.securityd; exiting
++ sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder ExitTimeOut -int 1
+2017-07-26 19:35:07.060 defaults[1372:17229] Could not write domain /System/Library/LaunchDaemons/com.apple.mDNSResponder; exiting
++ sudo defaults write /System/Library/LaunchDaemons/com.apple.diskarbitrationd ExitTimeOut -int 1
+2017-07-26 19:35:07.101 defaults[1375:17246] Could not write domain /System/Library/LaunchDaemons/com.apple.diskarbitrationd; exiting
++ defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool false
++ sudo dseditgroup -o edit -d admin -t group com.apple.access_ssh
++ sudo dscl . append /Groups/com.apple.access_ssh user techies
++ sudo dscl . append /Groups/com.apple.access_ssh GroupMembership admin
+++ dscl . read /Users/techies GeneratedUID
+++ cut -d ' ' -f 2
++ sudo dscl . append /Groups/com.apple.access_ssh groupmembers FA7F8B01-8C82-41A4-BC5B-9213D4F21A4A
++ sudo systemsetup -setremotelogin on
+setremotelogin: remote login is already On.
++ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -specifiedUsers
+Starting...
+Setting allow all users to NO.
+Done.
++ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -users techies,macadmin -access -on -privs -all
+Starting...
+techies: Set user remote control privileges.
+techies: Set user remote access.
+Done.
++ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -activate -restart -console
+Starting...
+Activated Remote Management.
+Done.
+++ ioreg -k IOPlatformSerialNumber
+++ sed -En 's/^.*"IOPlatformSerialNumber".*(.{6})"$/\1/p'
++ LAST6_ENETADDY=TMJ1WK
+++ /usr/bin/defaults read /System/Library/CoreServices/SystemVersion ProductVersion
+++ sed 's/[.]/-/g'
++ PATCHLVL=10-12-5
++ /usr/sbin/scutil --set LocalHostName RFSD-TMJ1WK-RENAME
++ /usr/sbin/scutil --set ComputerName RFSD-TMJ1WK-RENAME
++ /usr/sbin/scutil --set HostName RFSD-TMJ1WK-RENAME
+++ /usr/sbin/scutil --get HostName
++ RENAMED=RFSD-TMJ1WK-RENAME
++ security authorizationdb read system.device.dvd.setregion.initial
+YES (0)
++ /usr/libexec/PlistBuddy -c 'Set class allow' /tmp/system.device.dvd.setregion.initial.plist
++ security authorizationdb write system.device.dvd.setregion.initial
+YES (0)
++ sudo pmset -a hibernatemode 0
++ sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AllowPreReleaseInstallation -bool false
++ defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool true
++ defaults write /Library/Preferences/.GlobalPreferences MultipleSessionEnabled -bool YES
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Dutch.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/Dutch.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/Dutch.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/French.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/French.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/French.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/German.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/German.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/German.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Italian.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/Italian.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/Italian.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Japanese.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/Japanese.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/Japanese.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Non_localized/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/Non_localized/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/Non_localized/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Spanish.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/Spanish.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/Spanish.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ar.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ar.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ar.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ca.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ca.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ca.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/cs.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/cs.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/cs.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/da.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/da.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/da.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/el.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/el.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/el.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/es_419.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/es_419.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/es_419.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/fi.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/fi.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/fi.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/he.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/he.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/he.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/hr.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/hr.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/hr.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/hu.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/hu.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/hu.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/id.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/id.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/id.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ko.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ko.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ko.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ms.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ms.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ms.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/no.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/no.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/no.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pl.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/pl.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/pl.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pt.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/pt.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/pt.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pt_PT.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/pt_PT.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/pt_PT.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ro.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ro.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ro.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ru.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/ru.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/ru.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/sk.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/sk.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/sk.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/sv.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/sv.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/sv.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/th.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/th.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/th.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/tr.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/tr.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/tr.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/uk.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/uk.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/uk.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/vi.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/vi.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/vi.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/zh_CN.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/zh_CN.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/zh_CN.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/zh_TW.lproj/Library/Preferences/com.apple.SetupAssistant' DidSeeCloudSetup -bool TRUE
++ defaults write '/System/Library/User Template/zh_TW.lproj/Library/Preferences/com.apple.SetupAssistant' GestureMovieSeen none
++ defaults write '/System/Library/User Template/zh_TW.lproj/Library/Preferences/com.apple.SetupAssistant' LastSeenCloudProductVersion 10.10
++ sudo mv '/System/Library/CoreServices/Setup Assistant.app/Contents/SharedSupport/MiniLauncher' '/System/Library/CoreServices/Setup Assistant.app/Contents/SharedSupport/MiniLauncher.backup'
+mv: rename /System/Library/CoreServices/Setup Assistant.app/Contents/SharedSupport/MiniLauncher to /System/Library/CoreServices/Setup Assistant.app/Contents/SharedSupport/MiniLauncher.backup: Operation not permitted
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder.plist' ProhibitGoToiDisk -bool YES
++ rm /Library/LaunchDaemons/com.company.initialsetup.plist
+rm: /Library/LaunchDaemons/com.company.initialsetup.plist: No such file or directory
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Dutch.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/French.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/German.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Italian.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Japanese.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Non_localized/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/Spanish.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ar.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ca.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/cs.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/da.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/el.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/es_419.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/fi.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/he.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/hr.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/hu.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/id.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ko.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ms.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/no.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pl.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pt.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/pt_PT.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ro.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/ru.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/sk.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/sv.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/th.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/tr.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/uk.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/vi.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/zh_CN.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ for USER_TEMPLATE in '"/System/Library/User Template"/*'
++ defaults write '/System/Library/User Template/zh_TW.lproj/Library/Preferences/com.apple.TimeMachine' DoNotOfferNewDisksForBackup -bool true
++ defaults write /Library/Preferences/com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
++ defaults write /Library/Preferences/com.apple.TimeMachine AutoBackup -boolean NO
++ sudo tmutil disablelocal
++ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
++ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
++ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
++ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
++ spctl --master-disable
++ sudo softwareupdate --schedule off
+Automatic check is off
++ defaults write com.apple.CrashReporter DialogType -string none
++ defaults write com.apple.frameworks.diskimages skip-verify -bool true
++ defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
++ defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
++ security authorizationdb write system.preferences allow
+YES (0)
++ security authorizationdb write system.preferences.datetime allow
+YES (0)
++ security authorizationdb write system.preferences.network allow
+YES (0)
++ security authorizationdb write system.services.systemconfiguration.network allow
+YES (0)
++ security authorizationdb write system.preferences.printing allow
+YES (0)
++ /usr/bin/security authorizationdb write system.print.operator allow
+YES (0)
++ /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group lpadmin
++ /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group _lpadmin
++ /usr/sbin/dseditgroup -o edit -n /Local/Default -a 'Domain Users' -t group lpadmin
+Record was not found.
+++ /usr/sbin/system_profiler SPHardwareDataType
+++ grep 'Model Identifier'
+++ grep Book
++ is_laptop='      Model Identifier: MacBookAir7,2'
++ '[' -n $'?\200\234\200\235' ']'
++ pmset -b sleep 30 disksleep 10 displaysleep 15 halfdim 1
++ pmset -c sleep 0 disksleep 0 displaysleep 30 halfdim 1
++ defaults write com.apple.BezelServices kDim -bool true
++ defaults write com.apple.BezelServices kDimTime -int 300
++ osascript -e 'set volume output volume 50'
++ sudo chflags hidden '/Applications/Game Center.app/'
+chflags: /Applications/Game Center.app/: No such file or directory
++ sudo chflags hidden '/Applications/Utilities/Boot Camp Assistant.app/'
+chflags: /Applications/Utilities/Boot Camp Assistant.app/: Operation not permitted
++ ln -s '/System/Library/CoreServices/Applications/Network Utility.app' '/Applications/Utilities/Network Utility.app'
+ln: /Applications/Utilities/Network Utility.app/Network Utility.app: Operation not permitted
++ ln -s '/System/Library/CoreServices/Applications/Directory Utility.app' '/Applications/Utilities/Directory Utility.app'
+ln: /Applications/Utilities/Directory Utility.app/Directory Utility.app: Operation not permitted
++ ln -s '/System/Library/CoreServices/Applications/Screen Sharing.app' '/Applications/Utilities/Screen Sharing.app'
+ln: /Applications/Utilities/Screen Sharing.app/Screen Sharing.app: Operation not permitted
++ ln -s '/System/Library/CoreServices/Applications/RAID Utility.app' '/Applications/Utilities/RAID Utility.app'
+ln: /Applications/Utilities/RAID Utility.app/RAID Utility.app: Operation not permitted
++ ln -s '/System/Library/CoreServices/Applications/Archive Utility.app' '/Applications/Utilities/Archive Utility.app'
+ln: /Applications/Utilities/Archive Utility.app/Archive Utility.app: Operation not permitted
++ defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
++ systemsetup -setremotelogin on
+setremotelogin: remote login is already On.
++ spctl --master-disable
++ /usr/bin/defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool false
++ /usr/bin/defaults write /Library/Preferences/com.apple.security RSAMaxKeySize -int 32768
++ sudo chflags nohidden '/System/Library/User Template/English.lproj/Library/'
++ /usr/bin/chflags nohidden /Users/techies/Library
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' FXInfoPanesExpanded -dict General -bool true OpenWith -bool true Privileges -bool true
++ sudo defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.LaunchServices' LSQuarantine -bool NO
++ defaults write com.apple.LaunchServices LSQuarantine -bool NO
++ mkdir '/System/Library/User Template/English.lproj/Library/Preferences/ByHost'
+mkdir: /System/Library/User Template/English.lproj/Library/Preferences/ByHost: File exists
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/ByHost/com.apple.screensaver.' moduleName -string Message
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/ByHost/com.apple.screensaver.' modulePath -string '/System/Library/Screen Savers/FloatingMessage.saver'
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/ByHost/com.apple.screensaver.' idleTime -int 600
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/ByHost/com.apple.screensaver.' askForPassword -int 1
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.screensaver' askForPassword -int 1
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.screensaver' askForPasswordDelay -int 24
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowMountedServersOnDesktop -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowExternalHardDrivesOnDesktop -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowHardDrivesOnDesktop -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowRemovableMediaOnDesktop -bool true
++ defaults write /Library/Preferences/.GlobalPreferences PMPrintingExpandedStateForPrint2 -bool TRUE
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' AlwaysOpenWindowsInListView -bool true
++ defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowStatusBar -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.finder' ShowPathbar -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleBluetoothMultitouch.trackpad' TrackpadCornerSecondaryClick -int 2
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleBluetoothMultitouch.trackpad' TrackpadRightClick -bool true
++ defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
++ defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleBluetoothMultitouch.mouse' MouseButtonMode -string TwoButton
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleHIDMouse' Button1 -integer 1
++ defaults write '/System/Library/User Template/English.lproj/Library/Preferences/com.apple.driver.AppleHIDMouse' Button2 -integer 2
++ SUBMIT_DIAGNOSTIC_DATA_TO_APPLE=FALSE
++ SUBMIT_DIAGNOSTIC_DATA_TO_APP_DEVELOPERS=FALSE
++ /usr/bin/defaults write /Library/Preferences/com.apple.security RSAMaxKeySize -int 32768
++ chflags hidden /opt/
+chflags: /opt/: No such file or directory
++ chflags hidden /private/
++ chflags hidden /usr/
++ sudo periodic daily weekly monthly
++ /bin/rm -rf /var/log/system.log
++ exit 0
